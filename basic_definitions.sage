@@ -1,11 +1,65 @@
-from itertools import chain
+#############################################
+#   BASIC FUNCTIONALITIES AND DEFINITIONS   #
+#############################################
 
-## CONVERT base diagram TO LIST; NEEDED FOR COMPARISON
+fixed_params = var("q, iSymbol") # TL parameter q and a non-implementation of the complex unit
+cc_dict = {iSymbol:-iSymbol} # complex conjugation
+
+def initR(variableList): # returns a polynomial ring in the given variables (the input type must be a list) 
+    try :
+        R = LaurentPolynomialRing( QQbar, variableList + fixed_params )
+    except:
+        R = PolynomialRing( QQbar, variableList + fixed_params )
+
+    return R
+
+def initT(temperley_order, qValue, base_ring): # actually simply the TemperleyLiebAlgebra command, but slightly shorter
+    return TemperleyLiebAlgebra(temperley_order, qValue, base_ring)
+
+def initBasis(TL_algebra): # returns the basis for a given Temperley-Lieb algebra
+    temp_bas = TL_algebra.basis().list()
+    return temp_bas
+
+def initCoeff(ring_in): # takes a ring of polynomials in a_1, a_2, b_1, b_2,.... and returns a list [a_1 ]
+    ring_generators = ring_in.gens()
+    _coeff = [ 
+            ring_generators[2*i]+iSymbol*ring_generators[2*i+1] 
+            for i in range(len(ring_generators-2)/2)
+        ]
+    
+    return _coeff
+
+def reduceIsquared(v): # takes a tangle and removes each instance of iSymbol^2 for a factor of -1, then returns the tangle free from those shackles
+    _base_ring = v.base_ring()
+    v_coeff = [t.trailing_coefficient() for t in v.terms()]
+    v_vec = [t.trailing_monomial() for t in v.terms()]
+
+    for i in range(len(v_coeff)):
+        t = v_coeff[i]
+        x, y = SR(t).maxima_methods().divide(SR(iSymbol)^2)
+        while x:
+            t = R(y - x)
+            x,y = SR(t).maxima_methods().divide(SR(iSymbol)^2)
+        v_coeff[i] = t
+    vector = sum(v_coeff[i]*v_vec[i] for i in range(len(v_vec)))
+
+    return vector
+
+###########################################
+#   stuff to calculate perfectness with   #
+###########################################
+
+
+###
+#   Convert basis tangle to easy-to-parse list. Cleaner than always using an instance method.
+###
 
 def convertToList( base_tangle ):
     return base_tangle.diagram().standard_form()
 
-#### RETURN THE ADJOINT OF A BASIS TANGLE
+###
+#   Obtain the adjoint of a basis tangle by simply flipping the sign of each node, then reordering the list
+###
 
 def adjointBasisElement( base_tangle ):
     tList = convertToList(base_tangle)
@@ -34,8 +88,10 @@ def adjoint( tangle ):
 ### ROTATE AN INPUT TANGLE ONE CLICK 
 
 def rotateTangle( vector_in ):
-    basis_as_list = [ convertToList(x) for x in bas ]
-    strands = T.order()
+    this_TL = vector_in.parent()
+    this_bas = this_TL.basis().list()
+    basis_as_list = [ convertToList(x) for x in this_bas ]
+    strands = this_TL.order()
     in_list = convertToList(vector_in)
     out_list = []
 
@@ -105,6 +161,8 @@ def getSymbolicEquations(symbolizeThis):
     for x in symbolizeThis:
         coef = x.trailing_coefficient()
         vect = x.trailing_monomial()
+        if not gSE_TL:
+            gSE_TL = vect.parent()
 
         equa = expand(SR(coef)).subs({iSymbol^2 : -1})
         if equa.is_numeric() == False:
@@ -113,16 +171,18 @@ def getSymbolicEquations(symbolizeThis):
             imagPart = 0
             realPart = equa
 
-        if vect == unit:
+        if vect == gSE_TL.one():
             if ( realPart != 0 and imagPart != 0 ):
                 print "Failure"
                 # raise ValueError
             else:
-                temp.append(realPart - 1)
-                temp.append(imagPart)
+                if realPart != 0:
+                    temp.append(realPart != 0)
+                elif imagPart != 0:
+                    temp.append(imagPart != 0)
         else: 
-            temp.append( realPart )
-            temp.append( imagPart )
+            temp.append( realPart == 0)
+            temp.append( imagPart == 0)
 
     answer = list(set(temp))
     try:
@@ -224,23 +284,3 @@ def solveForThese(coeff_in):
     
     return vari
             
-R = LaurentPolynomialRing(
-        QQbar,
-        varList + list(var("q, iSymbol"))
-        )
-T = TemperleyLiebAlgebra(temperley_order, q, R)
-
-
-cc_dict = {iSymbol:-iSymbol}
-bas = T.basis().list()
-
-ring_generators = [list(R.gens())[i] for i in range(len(R.gens()) - 2)] 
-
-coeff = [
-        ring_generators[2*i]+iSymbol*ring_generators[2*i+1]
-        for i in range(len(ring_generators)/2)
-    ]
-
-uni = [[-i,i] for i in range(1,T.order()+1)]
-uni.reverse()
-unit = [ u for u in bas if uni == convertToList(u) ][0]

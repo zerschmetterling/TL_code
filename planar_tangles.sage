@@ -28,24 +28,108 @@
 #                                                                                                   # 
 #####################################################################################################
 
-######################################################
-##  The ultimate goal would be to have a function   ##
-##  that recursively constructs the perfect tangle  ##
-##  B_n. Seems doable.                              ##
-######################################################
+def get_variable(i):
+    return "v"+str(i)
 
-# def init_R():
-#     R.<a1,a2,b1,b2,q,iSymbol> = LaurentPolynomialRing(QQbar)
-#     return R
+def getVector(splitList):
+    TL_algebra = T[ len(splitList[0][1]) ]
+    _basis = bas[ TL_algebra.order() ]
+    _base_ring = TL_algebra.base_ring()
+    summed = TL_algebra.zero()
+    for x in splitList:
+        _coeff = _base_ring( reduceIsquared_coeff( x[0] ))
+        vector = [v for v in _basis if v.diagram().standard_form() == x[1]]
+        summed += _coeff*vector[0]
+    return summed
+
+def leftInclusion(v, topDim):
+    vTerms = v.terms()
+    split = [ [x.trailing_coefficient(), BASIS_leftInclusion(x.trailing_monomial(), topDim)] for x in vTerms ]
+    split = getVector(split)
+    return split
+
+def BASIS_leftInclusion(basis_element, topDim):
+    diagram = basis_element.diagram().standard_form()
+    dim = len(diagram)
+    for i in range(1,topDim - dim+1):
+        diagram.append([-(dim+i), dim+i])
+    diagram.sort()
+    return diagram
+
+###
+#   Convert basis tangle to easy-to-parse list. Cleaner than always using an instance method.
+###
+
+def convertToList( base_tangle ):
+    return base_tangle.diagram().standard_form()
+
+###
+#   Obtain the adjoint of a basis tangle by simply flipping the sign of each node, then reordering the list
+###
+
+def adjointBasisElement( base_tangle ):
+    tList = convertToList(base_tangle)
+    tempList = []
+    for i in range(len(tList)):
+        tempList.append([-tList[i][0], -tList[i][1]])
+    [x.sort() for x in tempList]
+    tempList.sort()
+    answer = getVector([[1, tempList]])
+    # return [x for x in bas if convertToList(x) == tempList][0]
+    return answer
+
+#### RETURN THE ADJOINT OF A LINEAR COMBINATION
+
+def adjoint( tangle ):
+    this_R = tangle.base_ring()
+    terms = tangle.terms()
+    
+    coeffs = [SR(x.trailing_coefficient()) for x in terms]
+    vector = [x.trailing_monomial() for x in terms]
+
+    coeffsCC = [this_R(x.subs(cc_dict)) for x in coeffs]
+    vectorCC = [adjointBasisElement(x) for x in vector]
+
+    adjointTangle = sum( coeffsCC[k]*vectorCC[k] for k in range(len(terms)) )
+
+    return adjointTangle
+
+### ROTATE AN INPUT TANGLE ONE CLICK 
+
+def rotateTangle( vector_in ):
+    this_TL = vector_in.parent()
+    this_bas = this_TL.basis().list()
+    basis_as_list = [ convertToList(x) for x in this_bas ]
+    strands = this_TL.order()
+    in_list = convertToList(vector_in)
+    out_list = []
+
+    for i in range(strands):
+        out_list.append([])
+        for x in in_list[i]:
+            if x == -1:
+                out_list[i].append( 1 )
+            elif x == strands:
+                out_list[i].append( -strands )
+            else:
+                out_list[i].append( x + 1 )
+    
+    [x.sort() for x in out_list]
+    out_list.sort()
+    
+    rotated = this_bas[ basis_as_list.index( out_list ) ]
+    return rotated 
+
+
+###
+#   More advanced stuff. Pretty much the construction from the main theorem
+###
 
 def init_FF(tang, n):
     FF = [0,0,tang]
     for i in range(3,n):
         FF.append(F(FF[i-1], tang))
     return FF
-
-def get_variable(i):
-    return "v"+str(i)
 
 def recursionF(v, n):
     if n == 3:
@@ -135,30 +219,3 @@ def F( v, w ):
     answer = getVector(answer)
     return answer
 
-
-def leftInclusion(v, topDim):
-    vTerms = v.terms()
-    split = [ [x.trailing_coefficient(), BASIS_leftInclusion(x.trailing_monomial(), topDim)] for x in vTerms ]
-    split = getVector(split)
-    return split
-
-
-def BASIS_leftInclusion(basis_element, topDim):
-    diagram = basis_element.diagram().standard_form()
-    dim = len(diagram)
-    for i in range(1,topDim - dim+1):
-        diagram.append([-(dim+i), dim+i])
-    diagram.sort()
-    return diagram
-
-def getVector(splitList):
-    TL_algebra = T[ len(splitList[0][1]) ]
-    _basis = TL_algebra.basis().list()
-    _base_ring = TL_algebra.base_ring()
-    summed = TL_algebra.zero()
-    for x in splitList:
-        _coeff = _base_ring(x[0])
-        vector = [v for v in _basis if v.diagram().standard_form() == x[1]]
-        summed += _coeff*vector[0]
-    summed = reduceIsquared(summed)
-    return summed

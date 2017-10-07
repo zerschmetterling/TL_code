@@ -31,29 +31,39 @@
 def get_variable(i):
     return "v"+str(i)
 
+###
+#   Given a list of lists of the form [coefficient, diagram], return the corresponding tangle
+###
+
 def getVector(splitList):
     TL_algebra = T[ len(splitList[0][1]) ]
-    _basis = bas[ TL_algebra.order() ]
-    _base_ring = TL_algebra.base_ring()
+    this_bas = bas[ TL_algebra.order() ]
+    this_R = TL_algebra.base_ring()
     summed = TL_algebra.zero()
     for x in splitList:
-        _coeff = _base_ring( reduceIsquared_coeff( x[0] ))
-        vector = [v for v in _basis if v.diagram().standard_form() == x[1]]
+        _coeff = this_R( reduceIsquared_coeff( x[0] ))
+        vector = [v for v in this_bas if convertToList(v) == x[1]]
         summed += _coeff*vector[0]
     return summed
+
+###
+#   Linear extension of the function on basis tangles. Includes the n-tangle v into TL of order topDim > n
+###
 
 def leftInclusion(v, topDim):
     vTerms = v.terms()
     split = [ [x.trailing_coefficient(), BASIS_leftInclusion(x.trailing_monomial(), topDim)] for x in vTerms ]
-    split = getVector(split)
+    # split = getVector(spli)
+    split = sum(split[i][0]*split[i][1] for i in range( len(split)) )
     return split
 
 def BASIS_leftInclusion(basis_element, topDim):
-    diagram = basis_element.diagram().standard_form()
+    diagram = convertToList(basis_element)
     dim = len(diagram)
     for i in range(1,topDim - dim+1):
         diagram.append([-(dim+i), dim+i])
     diagram.sort()
+    diagram = getVector([[1,diagram]])
     return diagram
 
 ###
@@ -64,7 +74,7 @@ def convertToList( base_tangle ):
     return base_tangle.diagram().standard_form()
 
 ###
-#   Obtain the adjoint of a basis tangle by simply flipping the sign of each node, then reordering the list
+#   Obtain the adjoint of a basis tangle by simply flipping the sign of each "node", then reordering the list
 ###
 
 def adjointBasisElement( base_tangle ):

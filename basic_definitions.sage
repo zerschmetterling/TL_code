@@ -24,21 +24,21 @@ def initBasis(TL_list): # returns the basis for a given Temperley-Lieb algebra
     return temp_bas
 
 def initCoeff(ring_in): # takes a ring of polynomials in a_1, a_2, b_1, b_2,.... and returns a list [a_1 ]
-    ring_generators = ring_in.gens()
+    ring_generators = list(ring_in.gens())
     _coeff = [ 
             ring_generators[2*i]+iSymbol*ring_generators[2*i+1] 
-            for i in range(len(ring_generators-2)/2)
+            for i in range(len(ring_generators)/2-1)
         ]
     
     return _coeff
 
 def reduceIsquared_tangle(v): # takes a tangle and removes each instance of iSymbol^2 for a factor of -1, then returns the tangle free from those shackles
-    _base_ring = v.base_ring()
+    this_R = v.base_ring()
     v_coeff = [t.trailing_coefficient() for t in v.terms()]
     v_vec = [t.trailing_monomial() for t in v.terms()]
 
     for i in range(len(v_coeff)):
-        t = reduceIsquared_coeff(v_coeff[i])
+        t = this_R(reduceIsquared_coeff(v_coeff[i]))
         v_coeff[i] = t
 
     vector = sum(v_coeff[i]*v_vec[i] for i in range(len(v_vec)))
@@ -46,12 +46,11 @@ def reduceIsquared_tangle(v): # takes a tangle and removes each instance of iSym
     return vector
 
 def reduceIsquared_coeff(c_in): # see above
-    t = SR(copy(c_in))
-    x, y = t.maxima_methods().divide(SR(iSymbol)^2)
-
+    t = SR(c_in)
+    x, y = SR(t).maxima_methods().divide(SR(iSymbol^2))
     while x:
         t = y - x
-        x,y = t.maxima_methods().divide(SR(iSymbol)^2)
+        x,y = SR(t).maxima_methods().divide(SR(iSymbol^2))
 
     return t
 
@@ -67,4 +66,19 @@ def solveForThese(coeff_in): # given the list of coefficients, return all variab
         pass
     
     return vari
-            
+
+def getCoeffFromTangle(vector):
+    this_TL = vector.parent()
+    this_bas = bas[T.index(this_TL) ]
+    v_terms = vector.terms()
+
+    answer = []
+
+    for bT in this_bas:
+        for x in v_terms:
+            if x.trailing_monomial() == bT:
+                answer.append(x.trailing_coefficient())
+                v_terms.remove(x)
+                break
+
+    return answer

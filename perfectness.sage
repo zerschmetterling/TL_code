@@ -62,19 +62,22 @@ def coeffsSelfadjoint(coeff):
 ### GIVEN A LIST OF COEFFICIENTS AND AN ORIENTATION, COMPUTE ALL ROTATIONS
 
 def allRotations(coeffs):
-    vectors = copy(bas)
     number_of_rotations = 0
+    this_bas = [b for b in bas if len(b) == len(coeffs)][0]
+    this_T = T[bas.index(this_bas)]
+    this_R = this_T.base_ring()
+    vectors = this_bas
     rotations = []
     
-    while number_of_rotations < 2*T.order():
-        appendThis = sum(R(coeffs[k])*vectors[k] for k in range(dim(T)))
+    while number_of_rotations < 2*this_T.order():
+        appendThis = sum(this_R(coeffs[k])*vectors[k] for k in range(dim(this_T)))
 
         if appendThis in rotations:
             break
         
         rotations.append(appendThis)
         
-        for j in range(dim(T)):
+        for j in range(dim(this_T)):
             vectors[j] = rotateTangle(vectors[j])
         
         number_of_rotations += 1
@@ -102,22 +105,28 @@ def allMultiplications(rot):
 ### TURN THE OBTAINED EQUATIONS, WHICH LIVE IN A RING OF LAURENT POLYNOMIALS, INTO SYMBOLIC EQUATIONS WHICH SAGE CAN SOLVE
 
 def getSymbolicEquations(symbolizeThis):
-    for v in R.gens():
+    this_R = symbolizeThis[0].base_ring()
+    for v in this_R.gens():
         var(v)
 
     temp = []
     for x in symbolizeThis:
         coef = x.trailing_coefficient()
         vect = x.trailing_monomial()
-        if not gSE_TL:
+        try:
+            gSE_TL
+        except:
             gSE_TL = vect.parent()
 
-        equa = expand(SR(coef)).subs({iSymbol^2 : -1})
+        equa = reduceIsquared_coeff(coef)
         if equa.is_numeric() == False:
             imagPart, realPart = equa.maxima_methods().divide(iSymbol)
         else:
             imagPart = 0
             realPart = equa
+
+        imagPart = expand(imagPart)
+        realPart = expand(realPart)
 
         if vect == gSE_TL.one():
             if ( realPart != 0 and imagPart != 0 ):
@@ -141,16 +150,13 @@ def getSymbolicEquations(symbolizeThis):
     return answer
 
 ### To this function one supplies a dictionary, and the two rotation arrays. It then simply substitutes the words from the dictionary, and returns the output of 
-# allMultiplications, i.e. an array, which - if the dictionary specifies a solution - should only consist of zeroes;
+# allMultiplications, i.e. an array, which - if the dictionary specifies a solution - should only consist of true statements.
 
-def checkSolution( dict_in, rot_in ):
-    answerSolution = getSymbolicEquations(allMultiplications(rot_in))
-    answerSolution = [expand(SR(x).subs(dict_in)) for x in answerSolution]
-
+def checkSolution( dict_in, symEq_in ):
+    answerSolution = [expand(SR(x).subs(dict_in)) for x in symEq_in]
     answerSolution = [expand(x^2) for x in answerSolution]
     
     return answerSolution
-
 
 ### Use Mathematica's reduction
 # def reduce_mathematica(symEqn, variables):

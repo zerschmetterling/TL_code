@@ -129,14 +129,16 @@ def getSymbolicEquations(symbolizeThis):
         realPart = expand(realPart)
 
         if vect == gSE_TL.one():
-            if ( realPart != 0 and imagPart != 0 ):
+            if ( realPart == 0 and imagPart == 0 ):
                 print "Failure"
                 # raise ValueError
             else:
-                if realPart != 0:
-                    temp.append(realPart != 0)
+                if realPart != 0 and imagPart != 0:
+                    temp.append(str(realPart != 0)+"or"+str(imagPart != 0))
                 elif imagPart != 0:
                     temp.append(imagPart != 0)
+                else:
+                    temp.append(realPart != 0)
         else: 
             temp.append( realPart == 0)
             temp.append( imagPart == 0)

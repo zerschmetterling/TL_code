@@ -41,7 +41,8 @@ def getVector(splitList):
     this_R = TL_algebra.base_ring()
     summed = TL_algebra.zero()
     for x in splitList:
-        _coeff = this_R( reduceIsquared_coeff( x[0] ))
+        # _coeff = this_R( reduceIsquared_coeff( x[0] ))
+        _coeff = this_R( x[0])
         vector = [v for v in this_bas if convertToList(v) == x[1]]
         summed += _coeff*vector[0]
     return summed

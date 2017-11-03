@@ -93,6 +93,13 @@ def adjointBasisElement( base_tangle ):
 
 def adjoint( tangle ):
     this_R = tangle.base_ring()
+    try:
+        cc_dict = cc_dict_glob
+    except:
+        cc_dict = conjugate_dictionary(this_R)
+        global cc_dict_glob
+        cc_dict_glob = cc_dict
+
     terms = tangle.terms()
     
     coeffs = [SR(x.trailing_coefficient()) for x in terms]

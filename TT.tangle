@@ -1,0 +1,214 @@
+\tikzexternaldisable
+\begin{align*}
+&	(a_{0} \bar{a}_0)\cdot\,
+	\begin{tikzpicture}[scale=0.5, baseline]
+		\coordinate (top1) at (-1/2,1);
+		\coordinate (bottom1) at (-1/2,-1);
+		\coordinate (top2) at (-1,1);
+		\coordinate (bottom2) at (-1,-1);
+		\coordinate (top3) at (-3/2,1);
+		\coordinate (bottom3) at (-3/2,-1);
+		\coordinate (top4) at (-2,1);
+		\coordinate (bottom4) at (-2,-1);
+		\draw (bottom4) -- (top4);
+		\draw (top3) -- (bottom3);
+		\draw (top2) -- (bottom2);
+		\draw (top1) -- (bottom1);
+	\end{tikzpicture}\\ &+
+	(a_{3} \mathit{a3CC} q + b_{5} \mathit{b5CC} q + b_{8} \mathit{b8CC} q + b_{5} \bar{a}_0 + b_{8} \mathit{a3CC} + a_{0} \mathit{b5CC} + b_{8} \mathit{b5CC} + a_{3} \mathit{b8CC} + b_{5} \mathit{b8CC})\cdot\,
+	\begin{tikzpicture}[scale=0.5, baseline]
+		\coordinate (top1) at (-1/2,1);
+		\coordinate (bottom1) at (-1/2,-1);
+		\coordinate (top2) at (-1,1);
+		\coordinate (bottom2) at (-1,-1);
+		\coordinate (top3) at (-3/2,1);
+		\coordinate (bottom3) at (-3/2,-1);
+		\coordinate (top4) at (-2,1);
+		\coordinate (bottom4) at (-2,-1);
+		\draw (bottom4) -- (top4);
+		\draw (top3) -- (bottom3);
+		\draw (bottom2) -- (bottom1);
+		\draw (top1) -- (top2);
+	\end{tikzpicture}\\ &+
+	(b_{1} \mathit{a3CC} q + a_{1} \mathit{b5CC} q + b_{6} \mathit{b8CC} q + a_{1} \bar{a}_0 + a_{0} \mathit{a3CC} + b_{6} \mathit{a3CC} + b_{6} \mathit{b5CC} + a_{1} \mathit{b8CC} + b_{1} \mathit{b8CC})\cdot\,
+	\begin{tikzpicture}[scale=0.5, baseline]
+		\coordinate (top1) at (-1/2,1);
+		\coordinate (bottom1) at (-1/2,-1);
+		\coordinate (top2) at (-1,1);
+		\coordinate (bottom2) at (-1,-1);
+		\coordinate (top3) at (-3/2,1);
+		\coordinate (bottom3) at (-3/2,-1);
+		\coordinate (top4) at (-2,1);
+		\coordinate (bottom4) at (-2,-1);
+		\draw (bottom4) -- (bottom3);
+		\draw (top4) -- (bottom2);
+		\draw (top3) -- (bottom1);
+		\draw (top1) -- (top2);
+	\end{tikzpicture}\\ &+
+	(a_{2} \mathit{b3CC} q^{2} + b_{7} \mathit{a1CC} q + b_{7} \mathit{a3CC} q + b_{7} \bar{b}_1 q + b_{7} \mathit{b3CC} q + b_{7} \mathit{b5CC} q + a_{2} \mathit{b6CC} q + a_{2} \mathit{b8CC} q + b_{7} \bar{a}_0 + a_{2} \mathit{a1CC} + b_{4} \mathit{a1CC} + a_{2} \mathit{a3CC} + b_{2} \mathit{a3CC} + a_{2} \bar{b}_1 + b_{2} \bar{b}_1 + a_{0} \mathit{b3CC} + b_{2} \mathit{b3CC} + b_{4} \mathit{b3CC} + a_{2} \mathit{b5CC} + b_{4} \mathit{b5CC} + b_{7} \mathit{b6CC} + b_{7} \mathit{b8CC})\cdot\,
+	\begin{tikzpicture}[scale=0.5, baseline]
+		\coordinate (top1) at (-1/2,1);
+		\coordinate (bottom1) at (-1/2,-1);
+		\coordinate (top2) at (-1,1);
+		\coordinate (bottom2) at (-1,-1);
+		\coordinate (top3) at (-3/2,1);
+		\coordinate (bottom3) at (-3/2,-1);
+		\coordinate (top4) at (-2,1);
+		\coordinate (bottom4) at (-2,-1);
+		\draw (bottom4) -- (bottom1);
+		\draw (bottom3) -- (bottom2);
+		\draw (top1) -- (top2);
+		\draw (top3) -- (top4);
+	\end{tikzpicture}\\ &+
+	(b_{3} \mathit{a2CC} q^{2} + b_{6} \mathit{a2CC} q + b_{8} \mathit{a2CC} q + a_{1} \mathit{b7CC} q + a_{3} \mathit{b7CC} q + b_{1} \mathit{b7CC} q + b_{3} \mathit{b7CC} q + b_{5} \mathit{b7CC} q + b_{3} \bar{a}_0 + a_{1} \mathit{a2CC} + a_{3} \mathit{a2CC} + b_{1} \mathit{a2CC} + b_{5} \mathit{a2CC} + a_{3} \mathit{b2CC} + b_{1} \mathit{b2CC} + b_{3} \mathit{b2CC} + a_{1} \mathit{b4CC} + b_{3} \mathit{b4CC} + b_{5} \mathit{b4CC} + a_{0} \mathit{b7CC} + b_{6} \mathit{b7CC} + b_{8} \mathit{b7CC})\cdot\,
+	\begin{tikzpicture}[scale=0.5, baseline]
+		\coordinate (top1) at (-1/2,1);
+		\coordinate (bottom1) at (-1/2,-1);
+		\coordinate (top2) at (-1,1);
+		\coordinate (bottom2) at (-1,-1);
+		\coordinate (top3) at (-3/2,1);
+		\coordinate (bottom3) at (-3/2,-1);
+		\coordinate (top4) at (-2,1);
+		\coordinate (bottom4) at (-2,-1);
+		\draw (bottom4) -- (bottom3);
+		\draw (bottom2) -- (bottom1);
+		\draw (top1) -- (top4);
+		\draw (top2) -- (top3);
+	\end{tikzpicture}\\ &+
+	(a_{2} \mathit{a2CC} q^{2} + b_{7} \mathit{b7CC} q^{2} + b_{7} \mathit{a2CC} q + b_{7} \mathit{b2CC} q + b_{7} \mathit{b4CC} q + a_{2} \mathit{b7CC} q + b_{2} \mathit{b7CC} q + b_{4} \mathit{b7CC} q + a_{2} \bar{a}_0 + a_{0} \mathit{a2CC} + b_{2} \mathit{a2CC} + b_{4} \mathit{a2CC} + a_{2} \mathit{b2CC} + b_{4} \mathit{b2CC} + a_{2} \mathit{b4CC} + b_{2} \mathit{b4CC})\cdot\,
+	\begin{tikzpicture}[scale=0.5, baseline]
+		\coordinate (top1) at (-1/2,1);
+		\coordinate (bottom1) at (-1/2,-1);
+		\coordinate (top2) at (-1,1);
+		\coordinate (bottom2) at (-1,-1);
+		\coordinate (top3) at (-3/2,1);
+		\coordinate (bottom3) at (-3/2,-1);
+		\coordinate (top4) at (-2,1);
+		\coordinate (bottom4) at (-2,-1);
+		\draw (bottom4) -- (bottom1);
+		\draw (bottom3) -- (bottom2);
+		\draw (top1) -- (top4);
+		\draw (top2) -- (top3);
+	\end{tikzpicture}\\ &+
+	(a_{1} \mathit{b2CC} q + b_{1} \mathit{b4CC} q + b_{6} \bar{a}_0 + b_{6} \mathit{b2CC} + a_{0} \mathit{b4CC} + b_{6} \mathit{b4CC})\cdot\,
+	\begin{tikzpicture}[scale=0.5, baseline]
+		\coordinate (top1) at (-1/2,1);
+		\coordinate (bottom1) at (-1/2,-1);
+		\coordinate (top2) at (-1,1);
+		\coordinate (bottom2) at (-1,-1);
+		\coordinate (top3) at (-3/2,1);
+		\coordinate (bottom3) at (-3/2,-1);
+		\coordinate (top4) at (-2,1);
+		\coordinate (bottom4) at (-2,-1);
+		\draw (bottom4) -- (bottom3);
+		\draw (top4) -- (bottom2);
+		\draw (top1) -- (bottom1);
+		\draw (top2) -- (top3);
+	\end{tikzpicture}\\ &+
+	(b_{4} \mathit{a3CC} q + b_{2} \mathit{b5CC} q + b_{2} \bar{a}_0 + a_{0} \mathit{b8CC} + b_{2} \mathit{b8CC} + b_{4} \mathit{b8CC})\cdot\,
+	\begin{tikzpicture}[scale=0.5, baseline]
+		\coordinate (top1) at (-1/2,1);
+		\coordinate (bottom1) at (-1/2,-1);
+		\coordinate (top2) at (-1,1);
+		\coordinate (bottom2) at (-1,-1);
+		\coordinate (top3) at (-3/2,1);
+		\coordinate (bottom3) at (-3/2,-1);
+		\coordinate (top4) at (-2,1);
+		\coordinate (bottom4) at (-2,-1);
+		\draw (bottom4) -- (top4);
+		\draw (bottom3) -- (bottom2);
+		\draw (top3) -- (bottom1);
+		\draw (top1) -- (top2);
+	\end{tikzpicture}\\ &+
+	(b_{5} \mathit{a1CC} q + a_{3} \bar{b}_1 q + b_{8} \mathit{b6CC} q + a_{3} \bar{a}_0 + a_{0} \mathit{a1CC} + b_{8} \mathit{a1CC} + b_{8} \bar{b}_1 + a_{3} \mathit{b6CC} + b_{5} \mathit{b6CC})\cdot\,
+	\begin{tikzpicture}[scale=0.5, baseline]
+		\coordinate (top1) at (-1/2,1);
+		\coordinate (bottom1) at (-1/2,-1);
+		\coordinate (top2) at (-1,1);
+		\coordinate (bottom2) at (-1,-1);
+		\coordinate (top3) at (-3/2,1);
+		\coordinate (bottom3) at (-3/2,-1);
+		\coordinate (top4) at (-2,1);
+		\coordinate (bottom4) at (-2,-1);
+		\draw (top2) -- (bottom4);
+		\draw (top1) -- (bottom3);
+		\draw (bottom2) -- (bottom1);
+		\draw (top3) -- (top4);
+	\end{tikzpicture}\\ &+
+	(b_{5} \mathit{b2CC} q + a_{3} \mathit{b4CC} q + b_{8} \bar{a}_0 + a_{0} \mathit{b2CC} + b_{8} \mathit{b2CC} + b_{8} \mathit{b4CC})\cdot\,
+	\begin{tikzpicture}[scale=0.5, baseline]
+		\coordinate (top1) at (-1/2,1);
+		\coordinate (bottom1) at (-1/2,-1);
+		\coordinate (top2) at (-1,1);
+		\coordinate (bottom2) at (-1,-1);
+		\coordinate (top3) at (-3/2,1);
+		\coordinate (bottom3) at (-3/2,-1);
+		\coordinate (top4) at (-2,1);
+		\coordinate (bottom4) at (-2,-1);
+		\draw (bottom4) -- (top4);
+		\draw (top1) -- (bottom3);
+		\draw (bottom2) -- (bottom1);
+		\draw (top2) -- (top3);
+	\end{tikzpicture}\\ &+
+	(a_{1} \mathit{a1CC} q + b_{1} \bar{b}_1 q + b_{6} \mathit{b6CC} q + b_{1} \bar{a}_0 + b_{6} \mathit{a1CC} + a_{0} \bar{b}_1 + b_{6} \bar{b}_1 + a_{1} \mathit{b6CC} + b_{1} \mathit{b6CC})\cdot\,
+	\begin{tikzpicture}[scale=0.5, baseline]
+		\coordinate (top1) at (-1/2,1);
+		\coordinate (bottom1) at (-1/2,-1);
+		\coordinate (top2) at (-1,1);
+		\coordinate (bottom2) at (-1,-1);
+		\coordinate (top3) at (-3/2,1);
+		\coordinate (bottom3) at (-3/2,-1);
+		\coordinate (top4) at (-2,1);
+		\coordinate (bottom4) at (-2,-1);
+		\draw (bottom4) -- (bottom3);
+		\draw (top2) -- (bottom2);
+		\draw (top1) -- (bottom1);
+		\draw (top3) -- (top4);
+	\end{tikzpicture}\\ &+
+	(b_{3} \mathit{b3CC} q^{2} + b_{6} \mathit{b3CC} q + b_{8} \mathit{b3CC} q + b_{3} \mathit{b6CC} q + b_{3} \mathit{b8CC} q + a_{3} \mathit{a1CC} + b_{1} \mathit{a1CC} + b_{3} \mathit{a1CC} + a_{1} \mathit{a3CC} + b_{3} \mathit{a3CC} + b_{5} \mathit{a3CC} + a_{1} \bar{b}_1 + b_{3} \bar{b}_1 + b_{5} \bar{b}_1 + a_{1} \mathit{b3CC} + a_{3} \mathit{b3CC} + b_{1} \mathit{b3CC} + b_{5} \mathit{b3CC} + a_{3} \mathit{b5CC} + b_{1} \mathit{b5CC} + b_{3} \mathit{b5CC})\cdot\,
+	\begin{tikzpicture}[scale=0.5, baseline]
+		\coordinate (top1) at (-1/2,1);
+		\coordinate (bottom1) at (-1/2,-1);
+		\coordinate (top2) at (-1,1);
+		\coordinate (bottom2) at (-1,-1);
+		\coordinate (top3) at (-3/2,1);
+		\coordinate (bottom3) at (-3/2,-1);
+		\coordinate (top4) at (-2,1);
+		\coordinate (bottom4) at (-2,-1);
+		\draw (bottom4) -- (bottom3);
+		\draw (bottom2) -- (bottom1);
+		\draw (top1) -- (top2);
+		\draw (top3) -- (top4);
+	\end{tikzpicture}\\ &+
+	(b_{2} \mathit{b2CC} q + b_{4} \mathit{b4CC} q)\cdot\,
+	\begin{tikzpicture}[scale=0.5, baseline]
+		\coordinate (top1) at (-1/2,1);
+		\coordinate (bottom1) at (-1/2,-1);
+		\coordinate (top2) at (-1,1);
+		\coordinate (bottom2) at (-1,-1);
+		\coordinate (top3) at (-3/2,1);
+		\coordinate (bottom3) at (-3/2,-1);
+		\coordinate (top4) at (-2,1);
+		\coordinate (bottom4) at (-2,-1);
+		\draw (bottom4) -- (top4);
+		\draw (bottom3) -- (bottom2);
+		\draw (top1) -- (bottom1);
+		\draw (top2) -- (top3);
+	\end{tikzpicture}\\ &+
+	(b_{2} \mathit{a1CC} q + b_{4} \bar{b}_1 q + b_{4} \bar{a}_0 + a_{0} \mathit{b6CC} + b_{2} \mathit{b6CC} + b_{4} \mathit{b6CC})\cdot\,
+	\begin{tikzpicture}[scale=0.5, baseline]
+		\coordinate (top1) at (-1/2,1);
+		\coordinate (bottom1) at (-1/2,-1);
+		\coordinate (top2) at (-1,1);
+		\coordinate (bottom2) at (-1,-1);
+		\coordinate (top3) at (-3/2,1);
+		\coordinate (bottom3) at (-3/2,-1);
+		\coordinate (top4) at (-2,1);
+		\coordinate (bottom4) at (-2,-1);
+		\draw (top2) -- (bottom4);
+		\draw (bottom3) -- (bottom2);
+		\draw (top1) -- (bottom1);
+		\draw (top3) -- (top4);
+	\end{tikzpicture}\\ &+
+\end{align*}
+\tikzexternalenable

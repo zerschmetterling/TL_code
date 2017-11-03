@@ -2,16 +2,37 @@
 #   BASIC FUNCTIONALITIES AND DEFINITIONS   #
 #############################################
 
-fixed_params = list(var("q, iSymbol")) # TL parameter q and a non-implementation of the complex unit
-cc_dict = {iSymbol:-iSymbol} # complex conjugation
+var("iSymbol")
+fixed_params = [var("q")] # TL parameter q and a non-implementation of the complex unit
 
 def initR(variableList): # returns a polynomial ring in the given variables (the input type must be a list) 
+    variableListTemp = copy(variableList)
+    for x in variableList:
+        variableListTemp.append(var(str(x)+"CC"))
+    
     try :
-        R = LaurentPolynomialRing( QQbar, variableList + fixed_params )
+        R = LaurentPolynomialRing( QQbar, variableListTemp + fixed_params )
     except:
-        R = PolynomialRing( QQbar, variableList + fixed_params )
+        R = PolynomialRing( QQbar, variableListTemp + fixed_params )
 
     return R
+
+def conjugate_dictionary(R):
+    gens = list(R.gens())
+    gens = [SR(x) for x in gens]
+    del(gens[-1])
+
+    dictio = {}
+
+    l = (len(gens))/2
+
+    first_half = [gens[i] for i in range(l)]
+    second_half = [gens[i] for i in range(l, 2*l)]
+
+    dictio.update( zip(first_half, second_half) )
+    dictio.update( zip(second_half, first_half) )
+
+    return dictio
 
 def initT(order_max, qValue, base_ring): # return a list of TL algebras
     T_temp = [TemperleyLiebAlgebra(i, qValue, base_ring) for i in range(order_max+1)]
@@ -82,3 +103,26 @@ def getCoeffFromTangle(vector):
                 break
 
     return answer
+
+def tikzTangle(tangle):
+    out_str = "\\tikzexternaldisable\n\\begin{align*}\n&"
+    order = tangle.parent().order()
+    terms = [ [latex(x.trailing_coefficient()), x.trailing_monomial().diagram()] for x in tangle.terms()]
+
+    for x in terms:
+        out_str += "\t("+str(x[0]).replace("\\mathit{iSymbol}", "i")+")\\cdot\\,\n"
+        out_str += "\t\\begin{tikzpicture}[scale=0.5, baseline]\n"
+    
+        for i in range(1,order+1):
+            out_str += "\t\t\\coordinate (top"+str(i)+") at (-"+str(i/2)+",1);\n"
+            out_str += "\t\t\\coordinate (bottom"+str(i)+") at (-"+str(i/2)+",-1);\n"
+        
+        for pair in x[1]:
+            start = "top"+str(pair[0]) if pair[0] > 0 else "bottom"+str(-pair[0])
+            finish = "top"+str(pair[1]) if pair[1] > 0 else "bottom"+str(-pair[1])
+            out_str += "\t\t\\draw ("+start+") -- ("+finish+");\n"
+
+        out_str += "\t\\end{tikzpicture}\\\ &+\n"
+
+    out_str += "\\end{align*}\n\\tikzexternalenable"
+    return out_str

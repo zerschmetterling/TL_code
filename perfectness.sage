@@ -8,7 +8,7 @@ load("planar_tangles.sage")
 # This is useful if you want to compute rotation invariant tangles
 
 def rotationInvariantDecomposition(TL_algebra):
-    bas_temp = initBasis(TL_algebra)
+    bas_temp = TL_algebra.basis().list()
     decomp = []
     indices = range(dim(TL_algebra))
     component = 0
@@ -106,48 +106,71 @@ def allMultiplications(rot):
 
 def getSymbolicEquations(symbolizeThis):
     this_R = symbolizeThis[0].base_ring()
-    for v in this_R.gens():
-        var(v)
+    this_TL = symbolizeThis[0].parent()
 
     temp = []
+
     for x in symbolizeThis:
-        coef = x.trailing_coefficient()
+        coef = SR(x.trailing_coefficient())
         vect = x.trailing_monomial()
-        try:
-            gSE_TL
-        except:
-            gSE_TL = vect.parent()
 
-        equa = reduceIsquared_coeff(coef)
-        if equa.is_numeric() == False:
-            imagPart, realPart = equa.maxima_methods().divide(iSymbol)
-        else:
-            imagPart = 0
-            realPart = equa
-
-        imagPart = expand(imagPart)
-        realPart = expand(realPart)
-
-        if vect == gSE_TL.one():
-            if ( realPart == 0 and imagPart == 0 ):
-                print "Failure"
-                # raise ValueError
-            else:
-                if realPart != 0 and imagPart != 0:
-                    temp.append(str(realPart != 0)+"or"+str(imagPart != 0))
-                elif imagPart != 0:
-                    temp.append(imagPart != 0)
-                else:
-                    temp.append(realPart != 0)
+        if vect == this_TL.one():
+            temp.append(coef != 0)
         else: 
-            temp.append( realPart == 0)
-            temp.append( imagPart == 0)
+            temp.append(coef == 0)
 
     answer = list(set(temp))
     try:
         answer.remove(True)
     except:
         pass
+    
+    return answer
+
+
+def symbolicEquations_real_split(symEq_complex):
+    gens = [SR(v) for v in R.gens()]
+    gens.remove(q)
+
+    split_dict = {}
+
+    for i in range( len(gens)/2 ):
+        v = gens[i]
+
+        split_dict.update({v : var(str(v)+"r") + iSymbol*var(str(v)+"i")})
+        split_dict.update({eval(str(v)+"CC") : var(str(v)+"r") - iSymbol*var(str(v)+"i")})
+
+    temp = []
+
+    neq = ( SR(1) != SR(0) ).operator()
+    eq = ( SR(0) == SR(0) ).operator()
+
+    for x in symEq_complex:
+        lhs = expand( x.lhs().subs(split_dict) )
+        lhs = reduceIsquared_coeff(lhs)
+        op = x.operator()
+
+        if lhs.is_numeric() == False:
+            imagPart, realPart = lhs.maxima_methods().divide(iSymbol)
+        else:
+            imagPart = 0
+            realPart = lhs
+
+        if op == neq:
+            if imagPart != 0:
+                temp.append( imagPart != 0 )
+                if realPart != 0:
+                    print "ENCOUNTERED AN OR"
+                    temp.append( realPart != 0 )
+            elif realPart != 0:
+                temp.append( realPart != 0 )
+            else:
+                raise ValueError
+        else:
+            temp.append( op(imagPart, 0) ) 
+            temp.append( op(realPart, 0) ) 
+
+    answer = list(set(temp))
     
     return answer
 

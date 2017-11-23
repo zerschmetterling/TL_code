@@ -42,7 +42,7 @@ def coeffsRotationInvariant(coeff):
 
 def coeffsSelfadjoint(coeff):
     temp = copy(coeff) 
-    all_indices = range(dim(T))
+    all_indices = range(len(coeff))
     for x in bas:
         if x == adjoint(x):
             x_ind = bas.index(x)
